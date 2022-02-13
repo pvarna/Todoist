@@ -3,7 +3,7 @@ package bg.sofia.uni.fmi.mjt.todoist.command;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.InvalidCommandException;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.WrongAuthenticationException;
 import bg.sofia.uni.fmi.mjt.todoist.server.user.UserDatabase;
-import utils.Utils;
+import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;

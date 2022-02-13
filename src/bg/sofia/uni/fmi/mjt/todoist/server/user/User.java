@@ -3,7 +3,7 @@ package bg.sofia.uni.fmi.mjt.todoist.server.user;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.storages.DatedTasks;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.storages.Inbox;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
-import utils.Utils;
+import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
 import java.time.LocalDate;
 

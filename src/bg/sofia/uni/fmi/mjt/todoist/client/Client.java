@@ -1,6 +1,6 @@
 package bg.sofia.uni.fmi.mjt.todoist.client;
 
-import utils.Utils;
+import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

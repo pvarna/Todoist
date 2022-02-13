@@ -1,4 +1,4 @@
-package utils;
+package bg.sofia.uni.fmi.mjt.todoist.utils;
 
 public class Utils {
 
