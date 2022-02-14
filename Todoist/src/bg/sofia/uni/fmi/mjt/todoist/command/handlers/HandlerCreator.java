@@ -27,7 +27,7 @@ public class HandlerCreator {
             }
 
             case "REMOVE-DATE" -> {
-                return new DeleteDateHandler(command, username);
+                return new RemoveDateHandler(command, username);
             }
 
             case "CHANGE-DATE" -> {
@@ -52,6 +52,34 @@ public class HandlerCreator {
 
             case "DELETE-TASK" -> {
                 return new DeleteTaskHandler(command, username);
+            }
+
+            case "ADD-COLLABORATION" -> {
+                return new AddCollaborationHandler(command, username);
+            }
+
+            case "DELETE-COLLABORATION" -> {
+                return new DeleteCollaborationHandler(command, username);
+            }
+
+            case "LIST-COLLABORATIONS" -> {
+                return new ListCollaborationsHandler(command, username);
+            }
+
+            case "ADD-USER" -> {
+                return new AddUserHandler(command, username);
+            }
+
+            case "ASSIGN-TASK" -> {
+                return new AssignTaskHandler(command, username);
+            }
+
+            case "LIST-COLLABORATION-TASKS" -> {
+                return new ListCollaborationTasksHandler(command, username);
+            }
+
+            case "LIST-COLLABORATION-USERS" -> {
+                return new ListCollaborationUsersHandler(command, username);
             }
         }
 

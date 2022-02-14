@@ -15,8 +15,14 @@ public class UpdateTaskHandler extends TaskHandler {
 
     @Override
     public String execute() {
-        Task toUpdate = this.taskDate == null ? this.user.getFromInbox(this.taskName) :
-                                                this.user.getFromDatedTasks(this.taskName, this.taskDate);
+        Task toUpdate;
+
+        if (this.collaborationName == null) {
+            toUpdate = this.taskDate == null ? this.user.getFromInbox(this.taskName) :
+                                               this.user.getFromDatedTasks(this.taskName, this.taskDate);
+        } else {
+            toUpdate = this.user.getCollaboration(this.collaborationName).getTask(this.taskName);
+        }
 
         this.updateTask(toUpdate);
 

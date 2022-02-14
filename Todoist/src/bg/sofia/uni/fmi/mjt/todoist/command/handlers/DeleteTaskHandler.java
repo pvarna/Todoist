@@ -11,12 +11,24 @@ public class DeleteTaskHandler extends TaskHandler {
     @Override
     public String execute() {
 
+        if (this.collaborationName == null) {
+            this.deletePersonalTask();
+        } else {
+            this.deleteCollaborationTask();
+        }
+
+        return "Task is deleted successfully";
+    }
+
+    private void deletePersonalTask() {
         if (this.taskDate == null) {
             this.user.removeFromInbox(this.taskName);
         } else {
             this.user.removeFromDatedTasks(this.taskName, this.taskDate);
         }
+    }
 
-        return "Task is deleted successfully";
+    private void deleteCollaborationTask() {
+        this.user.getCollaboration(this.collaborationName).removeTask(this.taskName);
     }
 }

@@ -17,6 +17,7 @@ public class Inbox {
     public Inbox() {
         this.tasks = new HashMap<>();
     }
+
     public void addTask(Task toAdd) {
         Utils.assertNonNull(toAdd, "Task to add");
 

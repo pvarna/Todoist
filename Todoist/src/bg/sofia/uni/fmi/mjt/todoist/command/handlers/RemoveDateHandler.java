@@ -3,31 +3,31 @@ package bg.sofia.uni.fmi.mjt.todoist.command.handlers;
 import bg.sofia.uni.fmi.mjt.todoist.command.Command;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
 
-public class ChangeDateHandler extends TaskHandler {
+public class RemoveDateHandler extends TaskHandler {
 
-    public ChangeDateHandler(Command command, String username) {
+    public RemoveDateHandler(Command command, String username) {
         super(command, username);
     }
 
     @Override
     public String execute() {
         if (this.collaborationName == null) {
-            this.changeDateForPersonalTask();
+            this.removeDateForPersonalTask();
         } else {
-            this.changeDateForCollaborationTask();
+            this.removeDateForCollaborationTask();
         }
 
-        return "Task date changed successfully";
+        return "Task date removed successfully";
     }
 
-    private void changeDateForPersonalTask() {
+    private void removeDateForPersonalTask() {
         Task toUpdate = this.user.removeFromDatedTasks(this.taskName, this.taskDate);
-        toUpdate.setDate(this.taskNewDate);
-        this.user.addTaskToDatedTasks(toUpdate);
+        toUpdate.setDate(null);
+        this.user.addTaskToInbox(toUpdate);
     }
 
-    private void changeDateForCollaborationTask() {
+    private void removeDateForCollaborationTask() {
         Task toUpdate = this.user.getCollaboration(this.collaborationName).getTask(this.taskName);
-        toUpdate.setDate(this.taskNewDate);
+        toUpdate.setDate(null);
     }
 }

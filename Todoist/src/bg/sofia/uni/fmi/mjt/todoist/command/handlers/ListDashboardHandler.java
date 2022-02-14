@@ -25,7 +25,7 @@ public class ListDashboardHandler extends TaskHandler {
 
         StringBuilder sb = new StringBuilder();
         for (Task current : tasksForTheDay) {
-            sb.append(current).append(System.lineSeparator());
+            sb.append(current).append(System.lineSeparator()).append(TASK_SEPARATOR).append(System.lineSeparator());
         }
 
         return sb.toString();

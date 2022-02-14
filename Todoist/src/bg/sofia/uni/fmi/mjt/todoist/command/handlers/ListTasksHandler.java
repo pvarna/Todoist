@@ -4,6 +4,7 @@ import bg.sofia.uni.fmi.mjt.todoist.command.Command;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.NoSuchTaskException;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
 
+import java.nio.MappedByteBuffer;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,7 +29,7 @@ public class ListTasksHandler extends TaskHandler {
 
         StringBuilder sb = new StringBuilder();
         for (Task current : tasks) {
-            sb.append(current).append(System.lineSeparator());
+            sb.append(current).append(System.lineSeparator()).append(TASK_SEPARATOR).append(System.lineSeparator());
         }
 
         return sb.toString();

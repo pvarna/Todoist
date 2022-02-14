@@ -1,5 +1,7 @@
 package bg.sofia.uni.fmi.mjt.todoist.server.user;
 
+import bg.sofia.uni.fmi.mjt.todoist.server.features.collaboration.Collaboration;
+import bg.sofia.uni.fmi.mjt.todoist.server.features.storages.Collaborations;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.storages.DatedTasks;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.storages.Inbox;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
@@ -14,6 +16,7 @@ public class User {
 
     private final Inbox inbox;
     private final DatedTasks datedTasks;
+    private final Collaborations collaborations;
 
     public User(String username, String password) {
         this.username = username;
@@ -21,6 +24,7 @@ public class User {
 
         this.inbox = new Inbox();
         this.datedTasks = new DatedTasks();
+        this.collaborations = new Collaborations(this.username);
     }
 
     public String getUsername() {
@@ -86,5 +90,30 @@ public class User {
         Utils.assertNonNull(taskName, "Task date");
 
         this.datedTasks.finishTask(taskName, taskDate);
+    }
+
+    public void addCollaboration(Collaboration toAdd) {
+        this.collaborations.addCollaboration(toAdd);
+    }
+
+    public void removeCollaboration(String collaborationName) {
+        this.collaborations.removeCollaboration(collaborationName);
+    }
+
+    public void deleteCollaboration(String collaborationName) {
+        this.collaborations.deleteCollaboration(collaborationName);
+    }
+
+    public Collaboration getCollaboration(String collaborationName) {
+        return this.collaborations.getCollaboration(collaborationName);
+    }
+
+    public Set<Collaboration> getCollaborations() {
+        return this.collaborations.getCollaborations();
+    }
+
+    @Override
+    public String toString() {
+        return "Username: " + this.username;
     }
 }

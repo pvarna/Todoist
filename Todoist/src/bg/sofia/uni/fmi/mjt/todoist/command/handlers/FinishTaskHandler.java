@@ -11,12 +11,24 @@ public class FinishTaskHandler extends TaskHandler {
     @Override
     public String execute() {
 
-        if (this.taskDate == null) {
-            this.user.finishTaskFromInbox(this.taskName);
+        if (this.collaborationName == null) {
+            this.finishPersonalTask();
         } else {
-            this.user.finishTaskFromDatedTasks(this.taskName, this.taskDate);
+            this.finishCollaborationTask();
         }
 
         return "Task marked as completed successfully";
+    }
+
+    private void finishPersonalTask() {
+        if (this.taskDate == null) {
+            this.user.getFromInbox(this.taskName).finish();
+        } else {
+            this.user.getFromDatedTasks(this.taskName, this.taskDate).finish();
+        }
+    }
+
+    private void finishCollaborationTask() {
+        this.user.getCollaboration(this.collaborationName).getTask(this.taskName).finish();
     }
 }

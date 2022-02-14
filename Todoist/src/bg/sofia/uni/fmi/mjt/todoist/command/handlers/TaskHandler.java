@@ -11,11 +11,11 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class TaskHandler extends CommandHandler {
+public abstract class TaskHandler extends FeatureHandler {
+
+    protected static final String TASK_SEPARATOR = "-----------------------------------------";
 
     private static final Map<String, Set<String>> mandatoryArguments;
-
-    protected User user;
 
     protected String taskName;
     protected LocalDate taskDate;
@@ -23,16 +23,10 @@ public abstract class TaskHandler extends CommandHandler {
     protected String taskDescription;
     protected LocalDate taskNewDate;
     protected Boolean taskCompleted;
+    protected String collaborationName;
 
     public TaskHandler(Command command, String username) {
         super(command, username);
-
-        if (this.command.arguments().size() != this.doubleArguments.size()) {
-            throw new InvalidCommandException("Invalid command syntax " +
-                    "(type 'help' to check the correct syntax of the commands)");
-        }
-
-        this.user = users.getUser(this.username);
 
         this.loadTaskName();
         this.loadTaskDate();
@@ -40,24 +34,9 @@ public abstract class TaskHandler extends CommandHandler {
         this.loadTaskDescription();
         this.loadTaskNewDate();
         this.loadTaskCompleted();
+        this.loadCollaborationName();
 
-        this.assertAllMandatoryArgumentsAreAvailable();
-    }
-
-    private void assertAllMandatoryArgumentsAreAvailable() {
-        Set<String> mandatory = mandatoryArguments.get(this.command.mainCommand());
-
-        int counter = 0;
-        for (String current : mandatory) {
-            if (this.doubleArguments.containsKey(current)) {
-                ++counter;
-            }
-        }
-
-        if (counter != mandatory.size()) {
-            throw new InvalidCommandException("There are missing mandatory arguments " +
-                    "(type 'help' to check the correct syntax of the commands)");
-        }
+        this.assertAllMandatoryArgumentsAreAvailable(mandatoryArguments);
     }
 
     private void loadTaskName() {
@@ -74,7 +53,6 @@ public abstract class TaskHandler extends CommandHandler {
                 throw new InvalidCommandException("Wrong date format " +
                         "(type 'help' to check the correct syntax of the commands)");
             }
-
         }
     }
 
@@ -118,6 +96,12 @@ public abstract class TaskHandler extends CommandHandler {
                 throw new InvalidCommandException("Invalid command syntax " +
                         "(type 'help' to check the correct syntax of the commands)");
             }
+        }
+    }
+
+    private void loadCollaborationName() {
+        if (this.doubleArguments.containsKey("COLLABORATION")) {
+            this.collaborationName = this.doubleArguments.get("COLLABORATION");
         }
     }
 
