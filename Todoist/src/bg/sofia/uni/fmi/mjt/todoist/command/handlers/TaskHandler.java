@@ -13,7 +13,7 @@ import java.util.Set;
 
 public abstract class TaskHandler extends CommandHandler {
 
-    private static Map<String, Set<String>> mandatoryArguments;
+    private static final Map<String, Set<String>> mandatoryArguments;
 
     protected User user;
 
@@ -22,7 +22,7 @@ public abstract class TaskHandler extends CommandHandler {
     protected LocalDate taskDueDate;
     protected String taskDescription;
     protected LocalDate taskNewDate;
-    protected boolean taskCompleted;
+    protected Boolean taskCompleted;
 
     public TaskHandler(Command command, String username) {
         super(command, username);
@@ -40,6 +40,8 @@ public abstract class TaskHandler extends CommandHandler {
         this.loadTaskDescription();
         this.loadTaskNewDate();
         this.loadTaskCompleted();
+
+        this.assertAllMandatoryArgumentsAreAvailable();
     }
 
     private void assertAllMandatoryArgumentsAreAvailable() {
@@ -129,7 +131,8 @@ public abstract class TaskHandler extends CommandHandler {
                 Map.entry("DELETE-TASK", Set.of("NAME")),
                 Map.entry("GET-TASK", Set.of("NAME")),
                 Map.entry("LIST-DASHBOARD", Collections.emptySet()),
-                Map.entry("FINISH-TASK", Set.of("NAME"))
+                Map.entry("FINISH-TASK", Set.of("NAME")),
+                Map.entry("LIST-TASKS", Collections.emptySet())
         );
     }
 }

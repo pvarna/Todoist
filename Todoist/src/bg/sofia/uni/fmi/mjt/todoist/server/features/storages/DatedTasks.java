@@ -59,6 +59,9 @@ public class DatedTasks {
         Task toRemove = this.getTask(taskName, taskDate);
 
         this.datedTasks.get(taskDate).remove(taskName);
+        if (this.datedTasks.get(taskDate).isEmpty()) {
+            this.datedTasks.remove(taskDate);
+        }
 
         return toRemove;
     }

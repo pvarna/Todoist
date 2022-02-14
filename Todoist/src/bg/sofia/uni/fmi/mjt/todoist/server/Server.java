@@ -64,11 +64,11 @@ public class Server {
                                 continue;
                             }
 
-                            Command command = CommandParser.buildCommand(clientInput);
-                            String user = this.getUser(clientChannel);
-
-                            String output = null;
+                            Command command = null;
+                            String output;
                             try {
+                                command = CommandParser.buildCommand(clientInput);
+                                String user = this.getUser(clientChannel);
                                 CommandHandler.assertCommandIsValid(command, user);
 
                                 this.commandHandler = HandlerCreator.of(command, user);

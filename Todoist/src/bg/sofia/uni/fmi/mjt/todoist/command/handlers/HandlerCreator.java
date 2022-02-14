@@ -27,7 +27,7 @@ public class HandlerCreator {
             }
 
             case "REMOVE-DATE" -> {
-                return new RemoveDateHandler(command, username);
+                return new DeleteDateHandler(command, username);
             }
 
             case "CHANGE-DATE" -> {
@@ -40,6 +40,18 @@ public class HandlerCreator {
 
             case "LIST-DASHBOARD" -> {
                 return new ListDashboardHandler(command, username);
+            }
+
+            case "FINISH-TASK" -> {
+                return new FinishTaskHandler(command, username);
+            }
+
+            case "LIST-TASKS" -> {
+                return new ListTasksHandler(command, username);
+            }
+
+            case "DELETE-TASK" -> {
+                return new DeleteTaskHandler(command, username);
             }
         }
 

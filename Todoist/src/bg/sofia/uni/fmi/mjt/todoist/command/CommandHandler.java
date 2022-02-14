@@ -38,11 +38,9 @@ public abstract class CommandHandler {
         Utils.assertNonNull(command, "Command");
 
         String mainCommand = command.mainCommand();
-        System.out.println("ALOOOOOOOOO");
 
         if (!availableCommands.containsKey(mainCommand)) {
-            //System.out.println("??? - " + mainCommand);
-            throw new InvalidCommandException("There isn't such command (type 'help' to see all valid commands) " + mainCommand);
+            throw new InvalidCommandException("There isn't such command (type 'help' to see all valid commands)");
         }
 
         int numberOfArguments = command.arguments().size();
@@ -69,7 +67,7 @@ public abstract class CommandHandler {
                 }
 
                 this.doubleArguments.put(separateParts[FIRST].toUpperCase(),
-                                         separateParts[SECOND]);
+                                         separateParts[SECOND].replace("\"", ""));
             }
         }
     }

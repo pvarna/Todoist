@@ -51,6 +51,10 @@ public class Inbox {
     }
 
     public Set<Task> getTasks() {
+        if (this.tasks.isEmpty()) {
+            throw new NoSuchTaskException("There aren't any tasks in the inbox");
+        }
+
         return Set.copyOf(this.tasks.values());
     }
 }

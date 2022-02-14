@@ -15,7 +15,7 @@ public class ListDashboardHandler extends TaskHandler {
 
     @Override
     public String execute() {
-        Set<Task> tasksForTheDay = null;
+        Set<Task> tasksForTheDay;
 
         try {
             tasksForTheDay = this.user.getTasksForGivenDate(LocalDate.now());

@@ -10,6 +10,13 @@ public class FinishTaskHandler extends TaskHandler {
 
     @Override
     public String execute() {
-        return null;
+
+        if (this.taskDate == null) {
+            this.user.finishTaskFromInbox(this.taskName);
+        } else {
+            this.user.finishTaskFromDatedTasks(this.taskName, this.taskDate);
+        }
+
+        return "Task marked as completed successfully";
     }
 }

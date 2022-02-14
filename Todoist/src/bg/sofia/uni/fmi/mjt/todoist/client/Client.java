@@ -30,18 +30,17 @@ public class Client {
             System.out.println("Connected to the server");
 
             while (true) {
-                System.out.print("Enter message: ");
+                System.out.print("> ");
                 String message = scanner.nextLine();
 
                 if (message.equals("quit")) {
                     break;
                 }
 
-                System.out.println("Senfing message <" + message + "> to the server...");
                 this.sendMessageToServer(socketChannel, message);
 
                 String reply = this.getServerReply(socketChannel);
-                System.out.println("The server replied <" + reply + ">");
+                System.out.println(reply);
             }
         } catch (IOException e) {
             throw new RuntimeException("There is a problem with the network communication", e);

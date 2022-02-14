@@ -47,7 +47,7 @@ public class CommandParser {
             if (text.charAt(index) == QUOTES) {
                 String toAdd = CommandParser.getQuotedText(text, index);
 
-                result.append(toAdd);
+                result.append("\"").append(toAdd).append("\"");
                 index += toAdd.length() + NUMBER_OF_QUOTES_PER_SINGLE_ARGUMENT;
 
             } else {
@@ -83,6 +83,6 @@ public class CommandParser {
     }
 
     public static void main(String[] args) {
-        CommandParser.buildCommand("delete-task --name=\"My sensational name\" --date=\"12.02.2022\"");
+        System.out.println(CommandParser.buildCommand("add-task name=\"go to fantastiko\""));;
     }
 }

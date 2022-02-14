@@ -17,6 +17,6 @@ public class DeleteTaskHandler extends TaskHandler {
             this.user.removeFromDatedTasks(this.taskName, this.taskDate);
         }
 
-        return "Task removed successfully";
+        return "Task is deleted successfully";
     }
 }

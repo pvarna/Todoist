@@ -1,6 +1,7 @@
 package bg.sofia.uni.fmi.mjt.todoist.command.handlers;
 
 import bg.sofia.uni.fmi.mjt.todoist.command.Command;
+import bg.sofia.uni.fmi.mjt.todoist.exceptions.NoSuchTaskException;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
 
 import java.util.Set;
@@ -17,9 +18,13 @@ public class ListTasksHandler extends TaskHandler {
         Set<Task> tasks = this.taskDate == null ? this.user.getTasksFromInbox() :
                                                   this.user.getTasksForGivenDate(this.taskDate);
 
-        if (this.taskCompleted) {
-            tasks = tasks.stream().filter(Task::isCompleted).collect(Collectors.toSet());
+        if (this.taskCompleted != null) {
+            tasks = tasks.stream().
+                    filter(task -> task.isCompleted() == this.taskCompleted).
+                    collect(Collectors.toSet());
         }
+
+        this.assertNotEmpty(tasks);
 
         StringBuilder sb = new StringBuilder();
         for (Task current : tasks) {
@@ -27,5 +32,15 @@ public class ListTasksHandler extends TaskHandler {
         }
 
         return sb.toString();
+    }
+
+    private void assertNotEmpty(Set<Task> tasks) {
+        if (tasks.isEmpty()) {
+            if (this.taskCompleted) {
+                throw new NoSuchTaskException("There aren't any completed tasks");
+            } else {
+                throw new NoSuchTaskException("There aren't any uncompleted tasks");
+            }
+        }
     }
 }
