@@ -65,8 +65,10 @@ public class User {
         return this.datedTasks.remove(taskName, taskDate);
     }
 
-    public Set<Task> getTasksForGivenDate(LocalDate date) {
-        return this.datedTasks.getTasksForGivenDate(date);
+    public Set<Task> getTasksForGivenDate(LocalDate taskDate) {
+        Utils.assertNonNull(taskDate, "Task date");
+
+        return this.datedTasks.getTasksForGivenDate(taskDate);
     }
 
     public Set<Task> getTasksFromInbox() {
@@ -74,10 +76,15 @@ public class User {
     }
 
     public void finishTaskFromInbox(String taskName) {
+        Utils.assertNonNull(taskName, "Task name");
+
         this.inbox.finishTask(taskName);
     }
 
     public void finishTaskFromDatedTasks(String taskName, LocalDate taskDate) {
+        Utils.assertNonNull(taskName, "Task name");
+        Utils.assertNonNull(taskName, "Task date");
+
         this.datedTasks.finishTask(taskName, taskDate);
     }
 }

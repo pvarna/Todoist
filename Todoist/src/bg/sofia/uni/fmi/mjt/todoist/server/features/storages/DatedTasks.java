@@ -4,6 +4,7 @@ import bg.sofia.uni.fmi.mjt.todoist.exceptions.NoSuchTaskException;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.TaskAlreadyCompletedException;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.TaskAlreadyExistsException;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
+import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -13,13 +14,15 @@ import java.util.Set;
 
 public class DatedTasks {
 
-    private Map<LocalDate, Map<String, Task>> datedTasks;
+    private final Map<LocalDate, Map<String, Task>> datedTasks;
 
     public DatedTasks() {
         this.datedTasks = new HashMap<>();
     }
 
     public void addTask(Task toAdd) {
+        Utils.assertNonNull(toAdd, "Task to add");
+
         if (this.datedTasks.containsKey(toAdd.getDate())) {
 
             if (this.datedTasks.get(toAdd.getDate()).containsKey(toAdd.getName())) {
@@ -34,6 +37,9 @@ public class DatedTasks {
     }
 
     public Task getTask(String taskName, LocalDate taskDate) {
+        Utils.assertNonNull(taskName, "Task name");
+        Utils.assertNonNull(taskDate, "Task date");
+
         if (!this.datedTasks.containsKey(taskDate)) {
             throw new NoSuchTaskException("There aren't any tasks with such date.");
         }
@@ -47,15 +53,20 @@ public class DatedTasks {
         return correctDateTasks.get(taskName);
     }
 
-    public Set<Task> getTasksForGivenDate(LocalDate date) {
-        if (!this.datedTasks.containsKey(date)) {
+    public Set<Task> getTasksForGivenDate(LocalDate taskDate) {
+        Utils.assertNonNull(taskDate, "Task date");
+
+        if (!this.datedTasks.containsKey(taskDate)) {
             throw new NoSuchTaskException("There aren't any tasks for the given day");
         }
 
-        return Set.copyOf(this.datedTasks.get(date).values());
+        return Set.copyOf(this.datedTasks.get(taskDate).values());
     }
 
     public Task remove(String taskName, LocalDate taskDate) {
+        Utils.assertNonNull(taskName, "Task name");
+        Utils.assertNonNull(taskDate, "Task date");
+
         Task toRemove = this.getTask(taskName, taskDate);
 
         this.datedTasks.get(taskDate).remove(taskName);
@@ -67,6 +78,9 @@ public class DatedTasks {
     }
 
     public void finishTask(String taskName, LocalDate taskDate) {
+        Utils.assertNonNull(taskName, "Task name");
+        Utils.assertNonNull(taskDate, "Task date");
+
         Task toFinish = this.getTask(taskName, taskDate);
 
         if (toFinish.isCompleted()) {
