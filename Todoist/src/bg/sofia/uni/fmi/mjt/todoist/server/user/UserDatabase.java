@@ -43,6 +43,10 @@ public class UserDatabase {
     public User getUser(String username) {
         Utils.assertNonNull(username, "Username");
 
+        if (!this.users.containsKey(username)) {
+            throw new NoSuchUserException("There isn't a user with such username");
+        }
+
         return this.users.get(username);
     }
 }

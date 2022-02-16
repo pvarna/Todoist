@@ -5,6 +5,8 @@ import bg.sofia.uni.fmi.mjt.todoist.exceptions.NoSuchTaskException;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
 
 import java.nio.MappedByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,12 +29,9 @@ public class ListTasksHandler extends TaskHandler {
 
         this.assertNotEmpty(tasks);
 
-        StringBuilder sb = new StringBuilder();
-        for (Task current : tasks) {
-            sb.append(current).append(System.lineSeparator()).append(TASK_SEPARATOR).append(System.lineSeparator());
-        }
-
-        return sb.toString();
+        return tasks.stream()
+                    .map(Task::toString)
+                    .collect(Collectors.joining(System.lineSeparator() + TASK_SEPARATOR + System.lineSeparator()));
     }
 
     private void assertNotEmpty(Set<Task> tasks) {

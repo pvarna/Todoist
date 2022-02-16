@@ -83,6 +83,6 @@ public class CommandParser {
     }
 
     public static void main(String[] args) {
-        System.out.println(CommandParser.buildCommand("add-task name=\"go to fantastiko\""));;
+        System.out.println(CommandParser.buildCommand("help"));;
     }
 }

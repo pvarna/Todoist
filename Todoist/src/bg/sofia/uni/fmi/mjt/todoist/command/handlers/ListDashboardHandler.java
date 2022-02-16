@@ -6,6 +6,7 @@ import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
 
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ListDashboardHandler extends TaskHandler {
 
@@ -23,11 +24,8 @@ public class ListDashboardHandler extends TaskHandler {
             throw new NoSuchTaskException("There aren't any tasks for today");
         }
 
-        StringBuilder sb = new StringBuilder();
-        for (Task current : tasksForTheDay) {
-            sb.append(current).append(System.lineSeparator()).append(TASK_SEPARATOR).append(System.lineSeparator());
-        }
-
-        return sb.toString();
+        return tasksForTheDay.stream()
+                .map(Task::toString)
+                .collect(Collectors.joining(System.lineSeparator() + TASK_SEPARATOR + System.lineSeparator()));
     }
 }

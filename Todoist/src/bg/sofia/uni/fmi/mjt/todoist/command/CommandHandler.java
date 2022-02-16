@@ -8,6 +8,7 @@ import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class CommandHandler {
 
@@ -18,6 +19,7 @@ public abstract class CommandHandler {
     protected static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     private static final Map<String, NumberOfArguments> availableCommands;
+    private static final Set<String> availableDoubleArguments;
     protected static final UserDatabase users = new UserDatabase();
 
     protected Command command;
@@ -50,7 +52,7 @@ public abstract class CommandHandler {
                     "(type 'help' to check the correct syntax of the commands)");
         }
 
-        if (!mainCommand.equals("LOGIN") && !mainCommand.equals("REGISTER") &&
+        if (!mainCommand.equals("LOGIN") && !mainCommand.equals("REGISTER") && !mainCommand.equals("HELP") &&
              username == null) {
             throw new WrongAuthenticationException("You must be logged in to use this feature");
         }
@@ -62,6 +64,11 @@ public abstract class CommandHandler {
                 String[] separateParts = argument.split(DOUBLE_ARGUMENT_SEPARATOR);
 
                 if (separateParts.length != PARTS_OF_DOUBLE_ARGUMENT) {
+                    throw new InvalidCommandException("Invalid command syntax " +
+                            "(type 'help' to check the correct syntax of the commands)");
+                }
+
+                if (!availableDoubleArguments.contains(separateParts[FIRST].toUpperCase())) {
                     throw new InvalidCommandException("Invalid command syntax " +
                             "(type 'help' to check the correct syntax of the commands)");
                 }
@@ -92,8 +99,21 @@ public abstract class CommandHandler {
                 Map.entry("ADD-USER", new NumberOfArguments(2,2)),
                 Map.entry("ASSIGN-TASK", new NumberOfArguments(3,3)),
                 Map.entry("LIST-COLLABORATION-TASKS", new NumberOfArguments(1,1)),
-                Map.entry("LIST-COLLABORATION-USERS", new NumberOfArguments(1,1))
+                Map.entry("LIST-COLLABORATION-USERS", new NumberOfArguments(1,1)),
+                Map.entry("HELP", new NumberOfArguments(0,0))
                 );
+
+        availableDoubleArguments = Set.of(
+                "NAME",
+                "DATE",
+                "DUE-DATE",
+                "NEW-DATE",
+                "DESCRIPTION",
+                "COMPLETED",
+                "COLLABORATION",
+                "USER",
+                "TASK"
+        );
     }
 }
 

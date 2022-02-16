@@ -4,6 +4,7 @@ import bg.sofia.uni.fmi.mjt.todoist.command.Command;
 import bg.sofia.uni.fmi.mjt.todoist.command.CommandHandler;
 import bg.sofia.uni.fmi.mjt.todoist.command.CommandParser;
 import bg.sofia.uni.fmi.mjt.todoist.command.handlers.HandlerCreator;
+import bg.sofia.uni.fmi.mjt.todoist.command.handlers.HelpHandler;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -19,7 +20,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class Server {
-    private static final int BUFFER_SIZE = 1024;
+    private static final int BUFFER_SIZE = 2048;
     private static final String HOST = "localhost";
 
     private final int port;
@@ -72,6 +73,7 @@ public class Server {
                                 CommandHandler.assertCommandIsValid(command, user);
 
                                 this.commandHandler = HandlerCreator.of(command, user);
+                                System.out.println(this.commandHandler instanceof HelpHandler);
                                 output = this.commandHandler.execute();
                                 this.updateSocketChannels(command, clientChannel);
 

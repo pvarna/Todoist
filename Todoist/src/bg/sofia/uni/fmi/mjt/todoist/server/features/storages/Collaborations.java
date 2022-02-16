@@ -25,7 +25,7 @@ public class Collaborations {
         Utils.assertNonNull(toAdd, "Collaboration to add");
 
         if (this.collaborations.containsKey(toAdd.getName())) {
-            throw new CollaborationAlreadyExistsException("A task with the same name already exists in the inbox.");
+            throw new CollaborationAlreadyExistsException("A collaboration with the same name already exists.");
         }
 
         this.collaborations.put(toAdd.getName(), toAdd);

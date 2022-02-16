@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Client {
 
     private static final int NUMBER_OF_PORTS = 65535;
-    private static final int BUFFER_SIZE = 1024;
+    private static final int BUFFER_SIZE = 2048;
 
     private ByteBuffer buffer;
 

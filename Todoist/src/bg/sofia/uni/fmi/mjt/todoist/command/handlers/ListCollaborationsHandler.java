@@ -5,6 +5,7 @@ import bg.sofia.uni.fmi.mjt.todoist.exceptions.NoSuchCollaborationException;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.collaboration.Collaboration;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ListCollaborationsHandler extends CollaborationHandler {
 
@@ -22,11 +23,8 @@ public class ListCollaborationsHandler extends CollaborationHandler {
             throw new NoSuchCollaborationException("There aren't any collaborations");
         }
 
-        for (Collaboration current : collaborations) {
-            sb.append(current.toString());
-            sb.append(System.lineSeparator()).append(COLLABORATION_SEPARATOR).append(System.lineSeparator());
-        }
-
-        return sb.toString();
+        return collaborations.stream()
+                .map(Collaboration::toString)
+                .collect(Collectors.joining(System.lineSeparator() + COLLABORATION_SEPARATOR + System.lineSeparator()));
     }
 }

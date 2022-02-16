@@ -6,6 +6,7 @@ import bg.sofia.uni.fmi.mjt.todoist.command.CommandHandler;
 public class HandlerCreator {
 
     public static CommandHandler of(Command command, String username) {
+
         switch (command.mainCommand()) {
             case "REGISTER" -> {
                 return new RegisterHandler(command);
@@ -80,6 +81,10 @@ public class HandlerCreator {
 
             case "LIST-COLLABORATION-USERS" -> {
                 return new ListCollaborationUsersHandler(command, username);
+            }
+
+            case "HELP" -> {
+                return new HelpHandler(command);
             }
         }
 

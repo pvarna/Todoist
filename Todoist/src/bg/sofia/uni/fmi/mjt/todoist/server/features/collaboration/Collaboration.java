@@ -8,10 +8,10 @@ import bg.sofia.uni.fmi.mjt.todoist.server.features.task.CollaborationTask;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
 import bg.sofia.uni.fmi.mjt.todoist.server.user.User;
 
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Collaboration {
 
@@ -38,7 +38,7 @@ public class Collaboration {
     }
 
     public void addNewCollaborator(User user) {
-        if (this.collaborators.containsKey(user.getUsername())) {
+        if (this.collaborators.containsKey(user.getUsername()) || this.admin.getUsername().equals(user.getUsername())) {
             throw new UserAlreadyExistsException("The collaboration already has a user with such username");
         }
 
@@ -75,27 +75,20 @@ public class Collaboration {
             throw new NoSuchTaskException("There aren't any tasks in the collaboration");
         }
 
-        StringBuilder sb = new StringBuilder();
-
-        for (CollaborationTask current : tasks.values()) {
-            sb.append(current.toString());
-            sb.append(System.lineSeparator()).append(TASK_SEPARATOR).append(System.lineSeparator());
-        }
-
-        return sb.toString();
+        return this.tasks.values().stream()
+                .map(CollaborationTask::toString)
+                .collect(Collectors.joining(System.lineSeparator() + TASK_SEPARATOR + System.lineSeparator()));
     }
 
     public String getUsersInfo() {
-        StringBuilder sb = new StringBuilder("Admin: " + this.admin.toString());
 
-        sb.append(System.lineSeparator()).append(TASK_SEPARATOR).append(System.lineSeparator());
+        String result = "Admin: " + this.admin.getUsername() + System.lineSeparator();
 
-        for (String current : collaborators.keySet()) {
-            sb.append(current);
-            sb.append(System.lineSeparator()).append(TASK_SEPARATOR).append(System.lineSeparator());
+        if (!this.collaborators.isEmpty()) {
+            result += "Collaborators: " + String.join(", ", this.collaborators.keySet());
         }
 
-        return sb.toString();
+        return result;
     }
 
     public String getName() {
@@ -115,11 +108,17 @@ public class Collaboration {
         StringBuilder sb = new StringBuilder();
 
         sb.append("Name: ").append(this.name).append(System.lineSeparator());
-        sb.append("Creator: ").append(this.admin.getUsername()).append(System.lineSeparator());
-        sb.append("Tasks: ").append(System.lineSeparator());
+        sb.append("Creator: ").append(this.admin.getUsername());
+        if (!this.collaborators.isEmpty()) {
+            sb.append(System.lineSeparator()).append("Collaborators: ").append(String.join(", ", this.collaborators.keySet()));
+        }
 
-        for (Task current : this.tasks.values()) {
-            sb.append(current.toString()).append(System.lineSeparator());
+        if (!this.tasks.isEmpty()) {
+            sb.append(System.lineSeparator()).append("Tasks: ").append(System.lineSeparator());
+
+            sb.append(this.tasks.values().stream()
+                    .map(Task::toString)
+                    .collect(Collectors.joining(System.lineSeparator() + TASK_SEPARATOR + System.lineSeparator())));
         }
 
         return sb.toString();
