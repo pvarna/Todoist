@@ -5,6 +5,10 @@ import bg.sofia.uni.fmi.mjt.todoist.command.CommandHandler;
 import bg.sofia.uni.fmi.mjt.todoist.command.CommandParser;
 import bg.sofia.uni.fmi.mjt.todoist.command.handlers.HandlerCreator;
 import bg.sofia.uni.fmi.mjt.todoist.command.handlers.HelpHandler;
+import bg.sofia.uni.fmi.mjt.todoist.logger.DefaultLogger;
+import bg.sofia.uni.fmi.mjt.todoist.logger.Level;
+import bg.sofia.uni.fmi.mjt.todoist.logger.Logger;
+import bg.sofia.uni.fmi.mjt.todoist.logger.LoggerOptions;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -15,12 +19,14 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 public class Server {
-    private static final int BUFFER_SIZE = 2048;
+    private static final int BUFFER_SIZE = 5096;
     private static final String HOST = "localhost";
 
     private final int port;
@@ -30,11 +36,13 @@ public class Server {
     private Selector selector;
 
     private CommandHandler commandHandler;
+    private Logger logger;
     private final Map<SocketChannel, String> connections;
 
     public Server(int port) {
         this.port = port;
         this.connections = new HashMap<>();
+        this.logger = new DefaultLogger(new LoggerOptions(this.getClass(), "logs"));
     }
 
     public void start() {
@@ -73,11 +81,12 @@ public class Server {
                                 CommandHandler.assertCommandIsValid(command, user);
 
                                 this.commandHandler = HandlerCreator.of(command, user);
-                                System.out.println(this.commandHandler instanceof HelpHandler);
                                 output = this.commandHandler.execute();
                                 this.updateSocketChannels(command, clientChannel);
 
                             } catch (RuntimeException e) {
+                                logger.log(Level.WARN, LocalDateTime.now(),
+                                        e.getMessage() + " " + Arrays.toString(e.getStackTrace()));
                                 output = e.getMessage();
                             }
 
@@ -95,13 +104,15 @@ public class Server {
                     }
 
                 } catch (IOException e) {
-                    /// TODO: something else
+                    logger.log(Level.ERROR, LocalDateTime.now(),
+                            e.getMessage() + " " + Arrays.toString(e.getStackTrace()));
                     System.out.println("Error occurred while processing client request: " + e.getMessage());
                 }
             }
         } catch (IOException e) {
-            /// TODO: something else
-            throw new UncheckedIOException("failed to start server", e);
+            logger.log(Level.ERROR, LocalDateTime.now(),
+                    e.getMessage() + " " + Arrays.toString(e.getStackTrace()));
+            System.out.println("Failed to start server");
         }
     }
 

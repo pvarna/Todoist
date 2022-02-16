@@ -7,4 +7,10 @@ public class Utils {
             throw new IllegalArgumentException(paramName + " should not be null");
         }
     }
+
+    public static void assertNonEmpty(String string, String paramName) {
+        if (string.isEmpty()) {
+            throw new IllegalArgumentException(paramName + " should not be empty");
+        }
+    }
 }

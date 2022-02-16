@@ -79,19 +79,6 @@ public class User {
         return this.inbox.getTasks();
     }
 
-    public void finishTaskFromInbox(String taskName) {
-        Utils.assertNonNull(taskName, "Task name");
-
-        this.inbox.finishTask(taskName);
-    }
-
-    public void finishTaskFromDatedTasks(String taskName, LocalDate taskDate) {
-        Utils.assertNonNull(taskName, "Task name");
-        Utils.assertNonNull(taskName, "Task date");
-
-        this.datedTasks.finishTask(taskName, taskDate);
-    }
-
     public void addCollaboration(Collaboration toAdd) {
         this.collaborations.addCollaboration(toAdd);
     }
@@ -111,6 +98,8 @@ public class User {
     public Set<Collaboration> getCollaborations() {
         return this.collaborations.getCollaborations();
     }
+
+
 
     @Override
     public String toString() {
