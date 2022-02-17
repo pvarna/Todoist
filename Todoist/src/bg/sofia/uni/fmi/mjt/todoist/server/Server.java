@@ -27,7 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class Server {
+public class Server implements Runnable {
     private static final int BUFFER_SIZE = 5096;
     private static final String HOST = "localhost";
     private static final String FILE_SEPARATOR = " ";
@@ -49,10 +49,11 @@ public class Server {
         this.logger = new DefaultLogger(new LoggerOptions(this.getClass(), "logs"));
     }
 
-    public void start() {
-        this.loadDatabase(Path.of("database", "sampleDatabase.txt"));
-
+    @Override
+    public void run() {
         try (ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()) {
+
+            System.out.println("The server has started");
 
             this.selector = Selector.open();
             this.configureServerSocketChannel(serverSocketChannel, this.selector);
@@ -109,11 +110,6 @@ public class Server {
                         }
 
                         keyIterator.remove();
-
-                        if (counter == 15) {
-                            System.out.println("PRINTQQQ");
-                            commandHandler.save(Path.of("database", "sampleDatabase.txt"));
-                        }
                     }
 
                 } catch (IOException e) {
@@ -129,7 +125,7 @@ public class Server {
         }
     }
 
-    private void loadDatabase(Path path) {
+    public void loadDatabase(Path path) {
         try (BufferedReader bufferedReader = Files.newBufferedReader(path)) {
 
             List<String> lines = bufferedReader.lines().toList();
@@ -146,6 +142,14 @@ public class Server {
         } catch (IOException e) {
             System.out.println("A problem occurred while reading from a file: " + e.getMessage());
         }
+
+        System.out.println("Database loaded");
+    }
+
+    public void saveDatabase(Path path) {
+        this.commandHandler.save(path);
+
+        System.out.println("Data saved");
     }
 
     public void stop() {
@@ -153,6 +157,8 @@ public class Server {
         if (selector.isOpen()) {
             selector.wakeup();
         }
+
+        System.out.println("Stopping the server");
     }
 
     private void configureServerSocketChannel(ServerSocketChannel channel, Selector selector) throws IOException {
@@ -202,11 +208,5 @@ public class Server {
         if (command.mainCommand().equals("LOGIN")) {
             this.connections.put(clientChannel, command.arguments().get(0));
         }
-    }
-
-    public static void main(String[] args) {
-        Server server = new Server(3945);
-
-        server.start();
     }
 }
