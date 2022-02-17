@@ -7,6 +7,7 @@ import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class UserDatabase {
 
@@ -48,5 +49,9 @@ public class UserDatabase {
         }
 
         return this.users.get(username);
+    }
+
+    public String serialize() {
+        return this.users.values().stream().map(User::serialize).collect(Collectors.joining(System.lineSeparator()));
     }
 }

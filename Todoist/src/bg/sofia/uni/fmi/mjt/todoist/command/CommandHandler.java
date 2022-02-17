@@ -9,6 +9,9 @@ import bg.sofia.uni.fmi.mjt.todoist.logger.LoggerOptions;
 import bg.sofia.uni.fmi.mjt.todoist.server.user.UserDatabase;
 import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -40,6 +43,15 @@ public abstract class CommandHandler {
     }
 
     public abstract String execute();
+
+    public void save(Path path) {
+        try (var bufferedWriter = Files.newBufferedWriter(path)) {
+            bufferedWriter.write(users.serialize());
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            throw new IllegalStateException("A problem occurred while writing to a file", e);
+        }
+    }
 
     public static void assertCommandIsValid(Command command, String username) {
         Utils.assertNonNull(command, "Command");

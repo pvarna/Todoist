@@ -7,9 +7,13 @@ import bg.sofia.uni.fmi.mjt.todoist.exceptions.UserAlreadyExistsException;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.task.CollaborationTask;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
 import bg.sofia.uni.fmi.mjt.todoist.server.user.User;
+import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,12 +21,16 @@ public class Collaboration {
 
     private static final String TASK_SEPARATOR = "-----------------------------------------";
 
-    private String name;
-    private User admin;
-    private Map<String, User> collaborators;
-    private Map<String, CollaborationTask> tasks;
+    private final String name;
+    private final User admin;
+    private final Map<String, User> collaborators;
+    private final Map<String, CollaborationTask> tasks;
 
     public Collaboration(String name, User admin) {
+        Utils.assertNonNull(name, "Collaboration name");
+        Utils.assertNonEmpty(name, "Collaboration name");
+        Utils.assertNonNull(admin, "Admin");
+
         this.name = name;
         this.admin = admin;
         this.collaborators = new HashMap<>();
@@ -30,6 +38,8 @@ public class Collaboration {
     }
 
     public void addNewTask(CollaborationTask task) {
+        Utils.assertNonNull(task, "Task");
+
         if (this.tasks.containsKey(task.getName())) {
             throw new TaskAlreadyExistsException("The collaboration already has a task with such name");
         }
@@ -70,25 +80,12 @@ public class Collaboration {
         this.tasks.remove(taskName);
     }
 
-    public String getTasksInfo() {
+    public Set<Task> getTasks() {
         if (this.tasks.isEmpty()) {
             throw new NoSuchTaskException("There aren't any tasks in the collaboration");
         }
 
-        return this.tasks.values().stream()
-                .map(CollaborationTask::toString)
-                .collect(Collectors.joining(System.lineSeparator() + TASK_SEPARATOR + System.lineSeparator()));
-    }
-
-    public String getUsersInfo() {
-
-        String result = "Admin: " + this.admin.getUsername() + System.lineSeparator();
-
-        if (!this.collaborators.isEmpty()) {
-            result += "Collaborators: " + String.join(", ", this.collaborators.keySet());
-        }
-
-        return result;
+        return Set.copyOf(this.tasks.values());
     }
 
     public String getName() {
@@ -122,5 +119,34 @@ public class Collaboration {
         }
 
         return sb.toString();
+    }
+
+    public List<String> serialize() {
+        List<String> result = new ArrayList<>();
+
+        result.add("add-collaboration name=" + this.name);
+
+        for (User user : this.collaborators.values()) {
+            result.add("add-user collaboration=" + this.name + " user=" + user.getUsername());
+        }
+
+        for (CollaborationTask task : this.tasks.values()) {
+            result.add(String.format(task.serialize(), this.name, task.getAssignee()));
+        }
+
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Collaboration that = (Collaboration) o;
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

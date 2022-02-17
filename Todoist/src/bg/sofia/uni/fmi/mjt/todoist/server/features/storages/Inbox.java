@@ -1,12 +1,13 @@
 package bg.sofia.uni.fmi.mjt.todoist.server.features.storages;
 
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.NoSuchTaskException;
-import bg.sofia.uni.fmi.mjt.todoist.exceptions.TaskAlreadyCompletedException;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.TaskAlreadyExistsException;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
 import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,6 +31,7 @@ public class Inbox {
 
     public Task getTask(String taskName) {
         Utils.assertNonNull(taskName, "Task name");
+        Utils.assertNonEmpty(taskName, "Task name");
 
         if (!this.tasks.containsKey(taskName)) {
             throw new NoSuchTaskException("There isn't a task with such name in the inbox.");
@@ -40,6 +42,7 @@ public class Inbox {
 
     public Task remove(String taskName) {
         Utils.assertNonNull(taskName, "Task name");
+        Utils.assertNonEmpty(taskName, "Task name");
 
         Task toRemove = this.getTask(taskName);
 
@@ -48,23 +51,21 @@ public class Inbox {
         return toRemove;
     }
 
-    public void finishTask(String taskName) {
-        Utils.assertNonNull(taskName, "Task name");
-
-        Task toFinish = this.getTask(taskName);
-
-        if (toFinish.isCompleted()) {
-            throw new TaskAlreadyCompletedException("This task is already completed");
-        }
-
-        toFinish.finish();
-    }
-
     public Set<Task> getTasks() {
         if (this.tasks.isEmpty()) {
             throw new NoSuchTaskException("There aren't any tasks in the inbox");
         }
 
         return Set.copyOf(this.tasks.values());
+    }
+
+    public List<String> serialize() {
+        List<String> result = new ArrayList<>();
+
+        for (Task task : this.tasks.values()) {
+            result.add(task.serialize());
+        }
+
+        return result;
     }
 }

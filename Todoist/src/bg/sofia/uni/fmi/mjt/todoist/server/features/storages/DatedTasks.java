@@ -1,14 +1,15 @@
 package bg.sofia.uni.fmi.mjt.todoist.server.features.storages;
 
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.NoSuchTaskException;
-import bg.sofia.uni.fmi.mjt.todoist.exceptions.TaskAlreadyCompletedException;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.TaskAlreadyExistsException;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
 import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,6 +40,7 @@ public class DatedTasks {
     public Task getTask(String taskName, LocalDate taskDate) {
         Utils.assertNonNull(taskName, "Task name");
         Utils.assertNonNull(taskDate, "Task date");
+        Utils.assertNonEmpty(taskName, "Task name");
 
         if (!this.datedTasks.containsKey(taskDate)) {
             throw new NoSuchTaskException("There aren't any tasks with such date.");
@@ -63,9 +65,20 @@ public class DatedTasks {
         return Set.copyOf(this.datedTasks.get(taskDate).values());
     }
 
+    public Set<Task> getTasks() {
+        Set<Task> result = new HashSet<>();
+
+        for (LocalDate date : this.datedTasks.keySet()) {
+            result.addAll(this.datedTasks.get(date).values());
+        }
+
+        return Set.copyOf(result);
+    }
+
     public Task remove(String taskName, LocalDate taskDate) {
         Utils.assertNonNull(taskName, "Task name");
         Utils.assertNonNull(taskDate, "Task date");
+        Utils.assertNonEmpty(taskName, "Task name");
 
         Task toRemove = this.getTask(taskName, taskDate);
 
@@ -77,16 +90,15 @@ public class DatedTasks {
         return toRemove;
     }
 
-    public void finishTask(String taskName, LocalDate taskDate) {
-        Utils.assertNonNull(taskName, "Task name");
-        Utils.assertNonNull(taskDate, "Task date");
+    public List<String> serialize() {
+        List<String> result = new ArrayList<>();
 
-        Task toFinish = this.getTask(taskName, taskDate);
-
-        if (toFinish.isCompleted()) {
-            throw new TaskAlreadyCompletedException("This task is already completed");
+        for (LocalDate date : this.datedTasks.keySet()) {
+            for (Task task : this.datedTasks.get(date).values()) {
+                result.add(task.serialize());
+            }
         }
 
-        toFinish.finish();
+        return result;
     }
 }

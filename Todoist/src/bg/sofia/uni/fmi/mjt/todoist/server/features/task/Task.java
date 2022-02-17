@@ -63,6 +63,24 @@ public class Task {
         return Objects.hash(name, date);
     }
 
+    public String serialize() {
+        StringBuilder result = new StringBuilder("add-task name=" + this.name);
+
+        if (this.date != null) {
+            result.append(" date=").append(this.date.format(FORMATTER));
+        }
+
+        if (this.dueDate != null) {
+            result.append(" due-date=").append(this.dueDate.format(FORMATTER));
+        }
+
+        if (this.description != null) {
+            result.append(" description=").append(this.description);
+        }
+
+        return result.toString();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Name: " + this.name);

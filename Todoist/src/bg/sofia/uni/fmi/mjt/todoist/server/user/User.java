@@ -8,7 +8,10 @@ import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
 import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class User {
     private final String username;
@@ -99,7 +102,16 @@ public class User {
         return this.collaborations.getCollaborations();
     }
 
+    public String serialize() {
+        List<String> commands = new ArrayList<>();
+        commands.add("register " + this.username + " " + this.password);
 
+        commands.addAll(this.inbox.serialize());
+        commands.addAll(this.datedTasks.serialize());
+        commands.addAll(this.collaborations.serialize());
+
+        return commands.stream().collect(Collectors.joining(System.lineSeparator()));
+    }
 
     @Override
     public String toString() {

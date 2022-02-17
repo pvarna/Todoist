@@ -16,6 +16,21 @@ public class CollaborationTask extends Task {
         this.assignee = assignee;
     }
 
+    public String getAssignee() {
+        return assignee;
+    }
+
+    @Override
+    public String serialize() {
+        String result = super.serialize();
+
+        if (this.assignee != null) {
+            result += System.lineSeparator() + "assign-task collaboration=%s user=%s task=" + this.getName();
+        }
+
+        return result;
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder(super.toString());

@@ -2,6 +2,10 @@ package bg.sofia.uni.fmi.mjt.todoist.command.handlers;
 
 import bg.sofia.uni.fmi.mjt.todoist.command.Command;
 import bg.sofia.uni.fmi.mjt.todoist.server.features.collaboration.Collaboration;
+import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ListCollaborationTasksHandler extends CollaborationHandler {
 
@@ -14,6 +18,10 @@ public class ListCollaborationTasksHandler extends CollaborationHandler {
 
         Collaboration collaboration = this.user.getCollaboration(this.name);
 
-        return collaboration.getTasksInfo();
+        Set<Task> tasks = collaboration.getTasks();
+
+        return tasks.stream()
+                .map(Task::toString)
+                .collect(Collectors.joining(System.lineSeparator() + SEPARATOR + System.lineSeparator()));
     }
 }

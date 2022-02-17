@@ -7,7 +7,9 @@ import bg.sofia.uni.fmi.mjt.todoist.server.features.collaboration.Collaboration;
 import bg.sofia.uni.fmi.mjt.todoist.server.user.User;
 import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,6 +19,9 @@ public class Collaborations {
     private final Map<String, Collaboration> collaborations;
 
     public Collaborations(String ownerName) {
+        Utils.assertNonNull(ownerName, "Admin");
+        Utils.assertNonEmpty(ownerName, "Admin");
+
         this.collaborations = new HashMap<>();
         this.ownerName = ownerName;
     }
@@ -32,6 +37,9 @@ public class Collaborations {
     }
 
     public Collaboration getCollaboration(String collaborationName) {
+        Utils.assertNonNull(collaborationName, "Collaboration name");
+        Utils.assertNonEmpty(collaborationName, "Collaboration name");
+
         if (!this.collaborations.containsKey(collaborationName)) {
             throw new NoSuchCollaborationException("There isn't a collaboration with such name");
         }
@@ -40,6 +48,9 @@ public class Collaborations {
     }
 
     public void deleteCollaboration(String collaborationName) {
+        Utils.assertNonNull(collaborationName, "Collaboration name");
+        Utils.assertNonEmpty(collaborationName, "Collaboration name");
+
         Collaboration toDelete = this.getCollaboration(collaborationName);
 
         if (!toDelete.getAdmin().getUsername().equals(this.ownerName)) {
@@ -50,7 +61,8 @@ public class Collaborations {
             current.removeCollaboration(collaborationName);
         }
 
-        toDelete.getAdmin().removeCollaboration(collaborationName);
+        //toDelete.getAdmin().removeCollaboration(collaborationName);
+        this.removeCollaboration(collaborationName);
     }
 
     public void removeCollaboration(String collaborationName) {
@@ -63,5 +75,17 @@ public class Collaborations {
 
     public Set<Collaboration> getCollaborations() {
         return Set.copyOf(this.collaborations.values());
+    }
+
+    public List<String> serialize() {
+        List<String> result = new ArrayList<>();
+
+        for (Collaboration collaboration : this.collaborations.values()) {
+            if (this.ownerName.equals(collaboration.getAdmin().getUsername())) {
+                result.addAll(collaboration.serialize());
+            }
+        }
+
+        return result;
     }
 }

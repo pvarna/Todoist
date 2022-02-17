@@ -4,14 +4,13 @@ import bg.sofia.uni.fmi.mjt.todoist.command.Command;
 import bg.sofia.uni.fmi.mjt.todoist.command.CommandHandler;
 import bg.sofia.uni.fmi.mjt.todoist.command.CommandParser;
 import bg.sofia.uni.fmi.mjt.todoist.command.handlers.HandlerCreator;
-import bg.sofia.uni.fmi.mjt.todoist.command.handlers.HelpHandler;
 import bg.sofia.uni.fmi.mjt.todoist.logger.DefaultLogger;
 import bg.sofia.uni.fmi.mjt.todoist.logger.Level;
 import bg.sofia.uni.fmi.mjt.todoist.logger.Logger;
 import bg.sofia.uni.fmi.mjt.todoist.logger.LoggerOptions;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
@@ -19,10 +18,13 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class Server {
@@ -36,7 +38,7 @@ public class Server {
     private Selector selector;
 
     private CommandHandler commandHandler;
-    private Logger logger;
+    private final Logger logger;
     private final Map<SocketChannel, String> connections;
 
     public Server(int port) {
@@ -46,6 +48,8 @@ public class Server {
     }
 
     public void start() {
+        this.loadDatabase(Path.of("database", "sampleDatabase.txt"));
+
         try (ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()) {
 
             this.selector = Selector.open();
@@ -54,6 +58,7 @@ public class Server {
             this.buffer = ByteBuffer.allocate(BUFFER_SIZE);
             this.isServerWorking = true;
 
+            int counter = 0;
             while (this.isServerWorking) {
                 try {
                     int readyChannels = selector.select();
@@ -79,6 +84,7 @@ public class Server {
                                 command = CommandParser.buildCommand(clientInput);
                                 String user = this.getUser(clientChannel);
                                 CommandHandler.assertCommandIsValid(command, user);
+                                ++counter;
 
                                 this.commandHandler = HandlerCreator.of(command, user);
                                 output = this.commandHandler.execute();
@@ -101,6 +107,11 @@ public class Server {
                         }
 
                         keyIterator.remove();
+
+                        if (counter == 15) {
+                            System.out.println("PRINTQQQ");
+                            commandHandler.save(Path.of("database", "sampleDatabase.txt"));
+                        }
                     }
 
                 } catch (IOException e) {
@@ -113,6 +124,23 @@ public class Server {
             logger.log(Level.ERROR, LocalDateTime.now(),
                     e.getMessage() + " " + Arrays.toString(e.getStackTrace()));
             System.out.println("Failed to start server");
+        }
+    }
+
+    private void loadDatabase(Path path) {
+        try (BufferedReader bufferedReader = Files.newBufferedReader(path)) {
+
+            List<String> lines = bufferedReader.lines().toList();
+            String currentUsername = null;
+            for (String current : lines) {
+                Command currentCommand = CommandParser.buildCommand(current);
+                if (currentCommand.mainCommand().equals("REGISTER")) {
+                    currentUsername = currentCommand.arguments().get(0);
+                }
+                this.commandHandler = HandlerCreator.of(currentCommand, currentUsername);
+            }
+        } catch (IOException e) {
+            throw new IllegalStateException("A problem occurred while reading from a file", e);
         }
     }
 
