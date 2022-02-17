@@ -24,7 +24,7 @@ public class UpdateTaskHandler extends TaskHandler {
 
         this.updateTask(toUpdate);
 
-        return "Task is updated successfully";
+        return "Task updated successfully";
     }
 
     private void updateTask(Task toUpdate) {
