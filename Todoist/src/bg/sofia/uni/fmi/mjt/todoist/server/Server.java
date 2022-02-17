@@ -30,6 +30,8 @@ import java.util.Map;
 public class Server {
     private static final int BUFFER_SIZE = 5096;
     private static final String HOST = "localhost";
+    private static final String FILE_SEPARATOR = " ";
+    private static final int SECOND_ARGUMENT = 1;
 
     private final int port;
     private boolean isServerWorking;
@@ -133,14 +135,16 @@ public class Server {
             List<String> lines = bufferedReader.lines().toList();
             String currentUsername = null;
             for (String current : lines) {
-                Command currentCommand = CommandParser.buildCommand(current);
-                if (currentCommand.mainCommand().equals("REGISTER")) {
-                    currentUsername = currentCommand.arguments().get(0);
+                if (current.charAt(0) == '>') {
+                    currentUsername = current.split(FILE_SEPARATOR)[SECOND_ARGUMENT];
+                    continue;
                 }
+                Command currentCommand = CommandParser.buildCommand(current);
                 this.commandHandler = HandlerCreator.of(currentCommand, currentUsername);
+                this.commandHandler.execute();
             }
         } catch (IOException e) {
-            throw new IllegalStateException("A problem occurred while reading from a file", e);
+            System.out.println("A problem occurred while reading from a file: " + e.getMessage());
         }
     }
 

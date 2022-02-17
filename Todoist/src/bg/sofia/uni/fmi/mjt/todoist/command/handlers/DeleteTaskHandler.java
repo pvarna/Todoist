@@ -17,7 +17,7 @@ public class DeleteTaskHandler extends TaskHandler {
             this.deleteCollaborationTask();
         }
 
-        return "Task is deleted successfully";
+        return "Task deleted successfully";
     }
 
     private void deletePersonalTask() {

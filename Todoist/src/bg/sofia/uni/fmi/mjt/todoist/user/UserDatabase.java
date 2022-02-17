@@ -57,6 +57,13 @@ public class UserDatabase {
     }
 
     public String serialize() {
-        return this.users.values().stream().map(User::serialize).collect(Collectors.joining(System.lineSeparator()));
+        StringBuilder sb = new StringBuilder();
+        for (User user : this.users.values()) {
+            sb.append("register ").append(user.getUsername()).append(" ");
+            sb.append(user.getPassword()).append(System.lineSeparator());
+        }
+        sb.append(this.users.values().stream().map(User::serialize).collect(Collectors.joining(System.lineSeparator())));
+
+        return sb.toString();
     }
 }

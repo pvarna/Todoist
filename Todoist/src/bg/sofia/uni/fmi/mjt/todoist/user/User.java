@@ -97,7 +97,7 @@ public class User {
 
     public String serialize() {
         List<String> commands = new ArrayList<>();
-        commands.add("register " + this.username + " " + this.password);
+        commands.add("> " + this.username);
 
         commands.addAll(this.inbox.serialize());
         commands.addAll(this.datedTasks.serialize());

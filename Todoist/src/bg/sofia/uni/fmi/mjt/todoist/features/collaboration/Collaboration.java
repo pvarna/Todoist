@@ -144,7 +144,7 @@ public class Collaboration {
         }
 
         for (CollaborationTask task : this.tasks.values()) {
-            result.add(String.format(task.serialize(), this.name, task.getAssignee()));
+            result.add(String.format(task.serialize(), this.name, this.name, task.getAssignee()));
         }
 
         return result;

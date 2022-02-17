@@ -13,6 +13,6 @@ public class DeleteCollaborationHandler extends CollaborationHandler {
 
         this.user.deleteCollaboration(this.name);
 
-        return "Collaboration is deleted successfully";
+        return "Collaboration deleted successfully";
     }
 }
