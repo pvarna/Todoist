@@ -2,7 +2,7 @@ package bg.sofia.uni.fmi.mjt.todoist.command.handlers;
 
 import bg.sofia.uni.fmi.mjt.todoist.command.Command;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.WrongCreatorException;
-import bg.sofia.uni.fmi.mjt.todoist.server.features.collaboration.Collaboration;
+import bg.sofia.uni.fmi.mjt.todoist.features.collaboration.Collaboration;
 
 public class AssignTaskHandler extends CollaborationHandler {
 
@@ -19,7 +19,7 @@ public class AssignTaskHandler extends CollaborationHandler {
             throw new WrongCreatorException("Only the creator of the collaboration can assignn tasks");
         }
 
-        toUpdate.addAssigneeForGivenTask(this.taskName, this.newUserName);
+        toUpdate.assignTask(this.taskName, this.newUserName);
 
         return "Task assigned successfully";
     }

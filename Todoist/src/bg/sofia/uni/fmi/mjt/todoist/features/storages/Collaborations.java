@@ -1,10 +1,10 @@
-package bg.sofia.uni.fmi.mjt.todoist.server.features.storages;
+package bg.sofia.uni.fmi.mjt.todoist.features.storages;
 
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.CollaborationAlreadyExistsException;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.NoSuchCollaborationException;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.WrongCreatorException;
-import bg.sofia.uni.fmi.mjt.todoist.server.features.collaboration.Collaboration;
-import bg.sofia.uni.fmi.mjt.todoist.server.user.User;
+import bg.sofia.uni.fmi.mjt.todoist.features.collaboration.Collaboration;
+import bg.sofia.uni.fmi.mjt.todoist.user.User;
 import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
 import java.util.ArrayList;

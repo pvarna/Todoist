@@ -1,10 +1,10 @@
-package bg.sofia.uni.fmi.mjt.todoist.server.user;
+package bg.sofia.uni.fmi.mjt.todoist.user;
 
-import bg.sofia.uni.fmi.mjt.todoist.server.features.collaboration.Collaboration;
-import bg.sofia.uni.fmi.mjt.todoist.server.features.storages.Collaborations;
-import bg.sofia.uni.fmi.mjt.todoist.server.features.storages.DatedTasks;
-import bg.sofia.uni.fmi.mjt.todoist.server.features.storages.Inbox;
-import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
+import bg.sofia.uni.fmi.mjt.todoist.features.collaboration.Collaboration;
+import bg.sofia.uni.fmi.mjt.todoist.features.storages.Collaborations;
+import bg.sofia.uni.fmi.mjt.todoist.features.storages.DatedTasks;
+import bg.sofia.uni.fmi.mjt.todoist.features.storages.Inbox;
+import bg.sofia.uni.fmi.mjt.todoist.features.task.Task;
 import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
 import java.time.LocalDate;
@@ -22,6 +22,11 @@ public class User {
     private final Collaborations collaborations;
 
     public User(String username, String password) {
+        Utils.assertNonNull(username, "Username");
+        Utils.assertNonEmpty(username, "Username");
+        Utils.assertNonNull(password, "Password");
+        Utils.assertNonEmpty(password, "Password");
+
         this.username = username;
         this.password = password;
 
@@ -47,34 +52,22 @@ public class User {
     }
 
     public Task getFromInbox(String taskName) {
-        Utils.assertNonNull(taskName, "Task name");
-
         return this.inbox.getTask(taskName);
     }
 
     public Task getFromDatedTasks(String taskName, LocalDate taskDate) {
-        Utils.assertNonNull(taskName, "Task name");
-        Utils.assertNonNull(taskDate, "Task date");
-
         return this.datedTasks.getTask(taskName, taskDate);
     }
 
     public Task removeFromInbox(String taskName) {
-        Utils.assertNonNull(taskName, "Task name");
-
         return this.inbox.remove(taskName);
     }
 
     public Task removeFromDatedTasks(String taskName, LocalDate taskDate) {
-        Utils.assertNonNull(taskName, "Task name");
-        Utils.assertNonNull(taskName, "Task date");
-
         return this.datedTasks.remove(taskName, taskDate);
     }
 
     public Set<Task> getTasksForGivenDate(LocalDate taskDate) {
-        Utils.assertNonNull(taskDate, "Task date");
-
         return this.datedTasks.getTasksForGivenDate(taskDate);
     }
 

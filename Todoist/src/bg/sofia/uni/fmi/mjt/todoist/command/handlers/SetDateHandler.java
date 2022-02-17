@@ -1,9 +1,7 @@
 package bg.sofia.uni.fmi.mjt.todoist.command.handlers;
 
 import bg.sofia.uni.fmi.mjt.todoist.command.Command;
-import bg.sofia.uni.fmi.mjt.todoist.exceptions.InvalidCommandException;
-import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
-import bg.sofia.uni.fmi.mjt.todoist.server.user.User;
+import bg.sofia.uni.fmi.mjt.todoist.features.task.Task;
 
 public class SetDateHandler extends TaskHandler {
 

@@ -2,7 +2,7 @@ package bg.sofia.uni.fmi.mjt.todoist.command.handlers;
 
 import bg.sofia.uni.fmi.mjt.todoist.command.Command;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.NoSuchTaskException;
-import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
+import bg.sofia.uni.fmi.mjt.todoist.features.task.Task;
 
 import java.time.LocalDate;
 import java.util.Set;

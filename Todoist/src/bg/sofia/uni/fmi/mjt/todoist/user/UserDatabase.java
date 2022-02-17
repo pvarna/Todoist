@@ -1,4 +1,4 @@
-package bg.sofia.uni.fmi.mjt.todoist.server.user;
+package bg.sofia.uni.fmi.mjt.todoist.user;
 
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.NoSuchUserException;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.UserAlreadyExistsException;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class UserDatabase {
 
-    private Map<String, User> users;
+    private final Map<String, User> users;
 
     public UserDatabase() {
         this.users = new HashMap<>();
@@ -19,7 +19,9 @@ public class UserDatabase {
 
     public void register(String username, String password) {
         Utils.assertNonNull(username, "Username");
+        Utils.assertNonEmpty(username, "Username");
         Utils.assertNonNull(password, "Password");
+        Utils.assertNonEmpty(password, "Password");
 
         if (this.users.containsKey(username)) {
             throw new UserAlreadyExistsException("A user with such username already exists.");
@@ -30,7 +32,9 @@ public class UserDatabase {
 
     public void login(String username, String password) {
         Utils.assertNonNull(username, "Username");
+        Utils.assertNonEmpty(username, "Username");
         Utils.assertNonNull(password, "Password");
+        Utils.assertNonEmpty(password, "Password");
 
         if (!this.users.containsKey(username)) {
             throw new NoSuchUserException("There isn't a user with such username");
@@ -43,6 +47,7 @@ public class UserDatabase {
 
     public User getUser(String username) {
         Utils.assertNonNull(username, "Username");
+        Utils.assertNonEmpty(username, "Username");
 
         if (!this.users.containsKey(username)) {
             throw new NoSuchUserException("There isn't a user with such username");

@@ -1,7 +1,6 @@
 package bg.sofia.uni.fmi.mjt.todoist.logger;
 
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.LogException;
-import bg.sofia.uni.fmi.mjt.todoist.server.user.User;
 import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
 import java.io.BufferedWriter;

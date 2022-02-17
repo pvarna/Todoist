@@ -1,8 +1,8 @@
 package bg.sofia.uni.fmi.mjt.todoist.command.handlers;
 
 import bg.sofia.uni.fmi.mjt.todoist.command.Command;
-import bg.sofia.uni.fmi.mjt.todoist.server.features.collaboration.Collaboration;
-import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
+import bg.sofia.uni.fmi.mjt.todoist.features.collaboration.Collaboration;
+import bg.sofia.uni.fmi.mjt.todoist.features.task.Task;
 
 import java.util.Set;
 import java.util.stream.Collectors;

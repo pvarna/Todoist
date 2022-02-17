@@ -1,9 +1,7 @@
 package bg.sofia.uni.fmi.mjt.todoist.command.handlers;
 
 import bg.sofia.uni.fmi.mjt.todoist.command.Command;
-import bg.sofia.uni.fmi.mjt.todoist.command.CommandHandler;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.InvalidCommandException;
-import bg.sofia.uni.fmi.mjt.todoist.server.user.User;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;

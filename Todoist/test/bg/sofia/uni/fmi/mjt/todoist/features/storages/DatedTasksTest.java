@@ -1,14 +1,17 @@
-package bg.sofia.uni.fmi.mjt.todoist.server.features.storages;
+package bg.sofia.uni.fmi.mjt.todoist.features.storages;
 
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.NoSuchTaskException;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.TaskAlreadyExistsException;
-import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
+import bg.sofia.uni.fmi.mjt.todoist.features.task.Task;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class DatedTasksTest {
 
@@ -124,7 +127,7 @@ class DatedTasksTest {
         Task toAdd = new Task("task", LocalDate.of(2022,2,15), null, null);
         datedTasks.addTask(toAdd);
 
-        assertEquals(datedTasks.getTask("task", LocalDate.of(2022,2,15)), toAdd, assertMessage);
+        Assertions.assertEquals(datedTasks.getTask("task", LocalDate.of(2022,2,15)), toAdd, assertMessage);
     }
 
     @Test

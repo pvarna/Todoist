@@ -2,17 +2,12 @@ package bg.sofia.uni.fmi.mjt.todoist.command;
 
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.InvalidCommandException;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.WrongAuthenticationException;
-import bg.sofia.uni.fmi.mjt.todoist.logger.DefaultLogger;
-import bg.sofia.uni.fmi.mjt.todoist.logger.Level;
-import bg.sofia.uni.fmi.mjt.todoist.logger.Logger;
-import bg.sofia.uni.fmi.mjt.todoist.logger.LoggerOptions;
-import bg.sofia.uni.fmi.mjt.todoist.server.user.UserDatabase;
+import bg.sofia.uni.fmi.mjt.todoist.user.UserDatabase;
 import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +30,8 @@ public abstract class CommandHandler {
     protected Map<String, String> doubleArguments;
 
     public CommandHandler(Command command, String username) {
+        Utils.assertNonNull(command, "Command");
+
         this.command = command;
         this.username = username;
         this.doubleArguments = new HashMap<>();

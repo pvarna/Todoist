@@ -1,4 +1,6 @@
-package bg.sofia.uni.fmi.mjt.todoist.server.features.task;
+package bg.sofia.uni.fmi.mjt.todoist.features.task;
+
+import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -16,6 +18,9 @@ public class Task {
     private boolean isCompleted;
 
     public Task(String name, LocalDate date, LocalDate dueDate, String description) {
+        Utils.assertNonNull(name, "Task name");
+        Utils.assertNonEmpty(name, "Task name");
+
         this.name = name;
         this.date = date;
         this.dueDate = dueDate;

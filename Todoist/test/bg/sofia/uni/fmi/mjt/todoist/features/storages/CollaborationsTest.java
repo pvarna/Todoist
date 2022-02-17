@@ -1,9 +1,9 @@
-package bg.sofia.uni.fmi.mjt.todoist.server.features.storages;
+package bg.sofia.uni.fmi.mjt.todoist.features.storages;
 
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.CollaborationAlreadyExistsException;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.NoSuchCollaborationException;
-import bg.sofia.uni.fmi.mjt.todoist.server.features.collaboration.Collaboration;
-import bg.sofia.uni.fmi.mjt.todoist.server.user.User;
+import bg.sofia.uni.fmi.mjt.todoist.features.collaboration.Collaboration;
+import bg.sofia.uni.fmi.mjt.todoist.user.User;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -103,7 +103,7 @@ class CollaborationsTest {
         Collaboration col = new Collaboration("col1", new User("pesho", "nz"));
         collaborations.addCollaboration(col);
 
-        assertEquals(collaborations.getCollaboration("col1"), col, assertMessage);
+        assertEquals(collaborations.getCollaboration("col1"), new Collaboration("col1", new User("pesho", "nz")), assertMessage);
     }
 
     @Test

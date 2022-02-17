@@ -1,12 +1,12 @@
-package bg.sofia.uni.fmi.mjt.todoist.server.features.collaboration;
+package bg.sofia.uni.fmi.mjt.todoist.features.collaboration;
 
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.NoSuchTaskException;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.NoSuchUserException;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.TaskAlreadyExistsException;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.UserAlreadyExistsException;
-import bg.sofia.uni.fmi.mjt.todoist.server.features.task.CollaborationTask;
-import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
-import bg.sofia.uni.fmi.mjt.todoist.server.user.User;
+import bg.sofia.uni.fmi.mjt.todoist.features.task.Task;
+import bg.sofia.uni.fmi.mjt.todoist.features.task.CollaborationTask;
+import bg.sofia.uni.fmi.mjt.todoist.user.User;
 import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
 import java.util.ArrayList;
@@ -48,6 +48,8 @@ public class Collaboration {
     }
 
     public void addNewCollaborator(User user) {
+        Utils.assertNonNull(user, "User");
+
         if (this.collaborators.containsKey(user.getUsername()) || this.admin.getUsername().equals(user.getUsername())) {
             throw new UserAlreadyExistsException("The collaboration already has a user with such username");
         }
@@ -55,7 +57,12 @@ public class Collaboration {
         this.collaborators.put(user.getUsername(), user);
     }
 
-    public void addAssigneeForGivenTask(String taskName, String username) {
+    public void assignTask(String taskName, String username) {
+        Utils.assertNonNull(taskName, "Task name");
+        Utils.assertNonEmpty(taskName, "Task name");
+        Utils.assertNonNull(username, "Username");
+        Utils.assertNonEmpty(username, "Username");
+
         if (!this.collaborators.containsKey(username) && !this.admin.getUsername().equals(username)) {
             throw new NoSuchUserException("The collaboration doesn't have a collaborator with such username");
         }
@@ -65,6 +72,9 @@ public class Collaboration {
     }
 
     public Task getTask(String taskName) {
+        Utils.assertNonNull(taskName, "Task name");
+        Utils.assertNonEmpty(taskName, "Task name");
+
         if (!this.tasks.containsKey(taskName)) {
             throw new NoSuchTaskException("The collaboration doesn't have a task with such name");
         }
@@ -73,6 +83,9 @@ public class Collaboration {
     }
 
     public void removeTask(String taskName) {
+        Utils.assertNonNull(taskName, "Task name");
+        Utils.assertNonEmpty(taskName, "Task name");
+
         if (!this.tasks.containsKey(taskName)) {
             throw new NoSuchTaskException("The collaboration doesn't have a task with such name");
         }

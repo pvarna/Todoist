@@ -1,6 +1,4 @@
-package bg.sofia.uni.fmi.mjt.todoist.server.features.task;
-
-import bg.sofia.uni.fmi.mjt.todoist.server.user.User;
+package bg.sofia.uni.fmi.mjt.todoist.features.task;
 
 import java.time.LocalDate;
 

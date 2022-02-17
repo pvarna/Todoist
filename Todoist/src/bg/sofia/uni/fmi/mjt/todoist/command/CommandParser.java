@@ -1,6 +1,7 @@
 package bg.sofia.uni.fmi.mjt.todoist.command;
 
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.InvalidCommandException;
+import bg.sofia.uni.fmi.mjt.todoist.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,8 @@ public class CommandParser {
     private static final char QUOTES = '\"';
 
     public static Command buildCommand(String commandLine) {
-        if (commandLine == null || commandLine.isEmpty()) {
-            throw new InvalidCommandException("Empty command line");
-        }
+        Utils.assertNonNull(commandLine, "Command line");
+        Utils.assertNonEmpty(commandLine, "Command line");
 
         if (getNumberOfQuotes(commandLine) % NUMBER_OF_QUOTES_PER_SINGLE_ARGUMENT == WRONG_QUOTES_REMAINDER) {
             throw new InvalidCommandException("Invalid number of quotes");
@@ -80,9 +80,5 @@ public class CommandParser {
 
         return new Command(arguments.get(MAIN_COMMAND).toUpperCase(),
                 arguments.subList(START_INDEX_OF_ARGUMENTS, arguments.size()));
-    }
-
-    public static void main(String[] args) {
-        System.out.println(CommandParser.buildCommand("help"));;
     }
 }

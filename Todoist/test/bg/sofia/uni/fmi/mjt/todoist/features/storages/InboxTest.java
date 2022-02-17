@@ -1,13 +1,15 @@
-package bg.sofia.uni.fmi.mjt.todoist.server.features.storages;
+package bg.sofia.uni.fmi.mjt.todoist.features.storages;
 
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.NoSuchTaskException;
 import bg.sofia.uni.fmi.mjt.todoist.exceptions.TaskAlreadyExistsException;
-import bg.sofia.uni.fmi.mjt.todoist.server.features.task.Task;
+import bg.sofia.uni.fmi.mjt.todoist.features.task.Task;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class InboxTest {
 
