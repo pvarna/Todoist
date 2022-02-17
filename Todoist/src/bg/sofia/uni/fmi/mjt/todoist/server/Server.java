@@ -61,7 +61,6 @@ public class Server implements Runnable {
             this.buffer = ByteBuffer.allocate(BUFFER_SIZE);
             this.isServerWorking = true;
 
-            int counter = 0;
             while (this.isServerWorking) {
                 try {
                     int readyChannels = selector.select();
@@ -77,7 +76,8 @@ public class Server implements Runnable {
                             String clientInput = getClientInput(clientChannel);
 
                             if (clientInput == null) {
-                                System.out.println("User " + this.getUser(clientChannel) + " disconnected from the server");
+                                System.out.println("User " + this.getUser(clientChannel) +
+                                        " disconnected from the server");
                                 continue;
                             }
 
@@ -87,7 +87,6 @@ public class Server implements Runnable {
                                 command = CommandParser.buildCommand(clientInput);
                                 String user = this.getUser(clientChannel);
                                 CommandHandler.assertCommandIsValid(command, user);
-                                ++counter;
 
                                 this.commandHandler = HandlerCreator.of(command, user);
                                 output = this.commandHandler.execute();
@@ -100,7 +99,8 @@ public class Server implements Runnable {
                             }
 
                             if (this.connections.containsKey(clientChannel)) {
-                                System.out.println("Command received from " + this.connections.get(clientChannel) + ": " + command);
+                                System.out.println("Command received from " +
+                                        this.connections.get(clientChannel) + ": " + command);
                             }
 
                             writeClientOutput(clientChannel, output);

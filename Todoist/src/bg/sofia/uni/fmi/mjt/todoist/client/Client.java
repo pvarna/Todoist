@@ -13,6 +13,7 @@ public class Client {
 
     private static final int NUMBER_OF_PORTS = 65535;
     private static final int BUFFER_SIZE = 5096;
+    private static final int SERVER_PORT = 3945;
 
     private ByteBuffer buffer;
 
@@ -74,6 +75,6 @@ public class Client {
     public static void main(String[] args) {
         Client client = new Client();
 
-        client.connectToServer("localhost", 3945);
+        client.connectToServer("localhost", SERVER_PORT);
     }
 }

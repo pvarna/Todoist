@@ -10,7 +10,7 @@ public abstract class CollaborationHandler extends FeatureHandler {
 
     protected static final String COLLABORATION_SEPARATOR = ".........................................";
 
-    private static final Map<String, Set<String>> mandatoryArguments;
+    private static final Map<String, Set<String>> MANDATORY_ARGUMENTS;
 
     protected String name;
     protected String collaboration;
@@ -26,7 +26,7 @@ public abstract class CollaborationHandler extends FeatureHandler {
         this.loadNewUserName();
         this.loadTaskName();
 
-        this.assertAllMandatoryArgumentsAreAvailable(mandatoryArguments);
+        this.assertAllMandatoryArgumentsAreAvailable(MANDATORY_ARGUMENTS);
     }
 
     private void loadName() {
@@ -54,7 +54,7 @@ public abstract class CollaborationHandler extends FeatureHandler {
     }
 
     static {
-        mandatoryArguments = Map.ofEntries(
+        MANDATORY_ARGUMENTS = Map.ofEntries(
                 Map.entry("ADD-COLLABORATION", Set.of("NAME")),
                 Map.entry("DELETE-COLLABORATION", Set.of("NAME")),
                 Map.entry("LIST-COLLABORATIONS", Collections.emptySet()),

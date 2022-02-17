@@ -21,9 +21,9 @@ public abstract class CommandHandler {
     private static final String DOUBLE_ARGUMENT_SEPARATOR = "=";
     protected static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    private static final Map<String, NumberOfArguments> availableCommands;
-    private static final Set<String> availableDoubleArguments;
-    protected static final UserDatabase users = new UserDatabase();
+    private static final Map<String, NumberOfArguments> AVAILABLE_COMMANDS;
+    private static final Set<String> ABAILABLE_DOUBLE_ARGUMENTS;
+    protected static final UserDatabase USERS = new UserDatabase();
 
     protected Command command;
     protected String username;
@@ -43,7 +43,7 @@ public abstract class CommandHandler {
 
     public void save(Path path) {
         try (var bufferedWriter = Files.newBufferedWriter(path)) {
-            bufferedWriter.write(users.serialize());
+            bufferedWriter.write(USERS.serialize());
             bufferedWriter.flush();
         } catch (IOException e) {
             throw new IllegalStateException("A problem occurred while writing to a file", e);
@@ -55,13 +55,13 @@ public abstract class CommandHandler {
 
         String mainCommand = command.mainCommand();
 
-        if (!availableCommands.containsKey(mainCommand)) {
+        if (!AVAILABLE_COMMANDS.containsKey(mainCommand)) {
             throw new InvalidCommandException("There isn't such command (type 'help' to see all valid commands)");
         }
 
         int numberOfArguments = command.arguments().size();
-        if (numberOfArguments < availableCommands.get(mainCommand).minArguments() ||
-                numberOfArguments > availableCommands.get(mainCommand).maxArguments()) {
+        if (numberOfArguments < AVAILABLE_COMMANDS.get(mainCommand).minArguments() ||
+                numberOfArguments > AVAILABLE_COMMANDS.get(mainCommand).maxArguments()) {
             throw new InvalidCommandException("Invalid number of arguments " +
                     "(type 'help' to check the correct syntax of the commands)");
         }
@@ -82,7 +82,7 @@ public abstract class CommandHandler {
                             "(type 'help' to check the correct syntax of the commands)");
                 }
 
-                if (!availableDoubleArguments.contains(separateParts[FIRST].toUpperCase())) {
+                if (!ABAILABLE_DOUBLE_ARGUMENTS.contains(separateParts[FIRST].toUpperCase())) {
                     throw new InvalidCommandException("Invalid command syntax " +
                             "(type 'help' to check the correct syntax of the commands)");
                 }
@@ -94,30 +94,30 @@ public abstract class CommandHandler {
     }
 
     static {
-        availableCommands = Map.ofEntries(
-                Map.entry("LOGIN", new NumberOfArguments(2,2)),
-                Map.entry("REGISTER", new NumberOfArguments(2,2)),
-                Map.entry("ADD-TASK", new NumberOfArguments(1,5)),
-                Map.entry("UPDATE-TASK", new NumberOfArguments(2,5)),
-                Map.entry("SET-DATE", new NumberOfArguments(2,3)),
-                Map.entry("REMOVE-DATE", new NumberOfArguments(2,3)),
-                Map.entry("CHANGE-DATE", new NumberOfArguments(3,4)),
-                Map.entry("DELETE-TASK", new NumberOfArguments(1,3)),
-                Map.entry("GET-TASK", new NumberOfArguments(1,3)),
-                Map.entry("LIST-DASHBOARD", new NumberOfArguments(0,0)),
-                Map.entry("FINISH-TASK", new NumberOfArguments(1,3)),
-                Map.entry("LIST-TASKS", new NumberOfArguments(0,2)),
-                Map.entry("ADD-COLLABORATION", new NumberOfArguments(1,1)),
-                Map.entry("DELETE-COLLABORATION", new NumberOfArguments(1,1)),
-                Map.entry("LIST-COLLABORATIONS", new NumberOfArguments(0,0)),
-                Map.entry("ADD-USER", new NumberOfArguments(2,2)),
-                Map.entry("ASSIGN-TASK", new NumberOfArguments(3,3)),
-                Map.entry("LIST-COLLABORATION-TASKS", new NumberOfArguments(1,1)),
-                Map.entry("LIST-COLLABORATION-USERS", new NumberOfArguments(1,1)),
-                Map.entry("HELP", new NumberOfArguments(0,0))
+        AVAILABLE_COMMANDS = Map.ofEntries(
+                Map.entry("LOGIN", new NumberOfArguments(2, 2)),
+                Map.entry("REGISTER", new NumberOfArguments(2, 2)),
+                Map.entry("ADD-TASK", new NumberOfArguments(1, 5)),
+                Map.entry("UPDATE-TASK", new NumberOfArguments(2, 5)),
+                Map.entry("SET-DATE", new NumberOfArguments(2, 3)),
+                Map.entry("REMOVE-DATE", new NumberOfArguments(2, 3)),
+                Map.entry("CHANGE-DATE", new NumberOfArguments(3, 4)),
+                Map.entry("DELETE-TASK", new NumberOfArguments(1, 3)),
+                Map.entry("GET-TASK", new NumberOfArguments(1, 3)),
+                Map.entry("LIST-DASHBOARD", new NumberOfArguments(0, 0)),
+                Map.entry("FINISH-TASK", new NumberOfArguments(1, 3)),
+                Map.entry("LIST-TASKS", new NumberOfArguments(0, 2)),
+                Map.entry("ADD-COLLABORATION", new NumberOfArguments(1, 1)),
+                Map.entry("DELETE-COLLABORATION", new NumberOfArguments(1, 1)),
+                Map.entry("LIST-COLLABORATIONS", new NumberOfArguments(0, 0)),
+                Map.entry("ADD-USER", new NumberOfArguments(2, 2)),
+                Map.entry("ASSIGN-TASK", new NumberOfArguments(3, 3)),
+                Map.entry("LIST-COLLABORATION-TASKS", new NumberOfArguments(1, 1)),
+                Map.entry("LIST-COLLABORATION-USERS", new NumberOfArguments(1, 1)),
+                Map.entry("HELP", new NumberOfArguments(0, 0))
                 );
 
-        availableDoubleArguments = Set.of(
+        ABAILABLE_DOUBLE_ARGUMENTS = Set.of(
                 "NAME",
                 "DATE",
                 "DUE-DATE",
@@ -131,4 +131,6 @@ public abstract class CommandHandler {
     }
 }
 
-record NumberOfArguments(int minArguments, int maxArguments) {}
+record NumberOfArguments(int minArguments, int maxArguments) {
+
+}

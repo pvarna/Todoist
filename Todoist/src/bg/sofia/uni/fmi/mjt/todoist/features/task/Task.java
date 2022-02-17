@@ -69,7 +69,7 @@ public class Task {
     }
 
     public String serialize() {
-        StringBuilder result = new StringBuilder("add-task name=" + this.name);
+        StringBuilder result = new StringBuilder("add-task name=\"" + this.name + "\"");
 
         if (this.date != null) {
             result.append(" date=").append(this.date.format(FORMATTER));
@@ -80,7 +80,7 @@ public class Task {
         }
 
         if (this.description != null) {
-            result.append(" description=").append(this.description);
+            result.append(" description=\"").append(this.description).append("\"");
         }
 
         return result.toString();

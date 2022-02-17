@@ -13,7 +13,7 @@ public abstract class TaskHandler extends FeatureHandler {
 
     protected static final String TASK_SEPARATOR = "-----------------------------------------";
 
-    private static final Map<String, Set<String>> mandatoryArguments;
+    private static final Map<String, Set<String>> MANDATORY_ARGUMENTS;
 
     protected String taskName;
     protected LocalDate taskDate;
@@ -34,7 +34,7 @@ public abstract class TaskHandler extends FeatureHandler {
         this.loadTaskCompleted();
         this.loadCollaborationName();
 
-        this.assertAllMandatoryArgumentsAreAvailable(mandatoryArguments);
+        this.assertAllMandatoryArgumentsAreAvailable(MANDATORY_ARGUMENTS);
     }
 
     private void loadTaskName() {
@@ -104,7 +104,7 @@ public abstract class TaskHandler extends FeatureHandler {
     }
 
     static {
-        mandatoryArguments = Map.ofEntries(
+        MANDATORY_ARGUMENTS = Map.ofEntries(
                 Map.entry("ADD-TASK", Set.of("NAME")),
                 Map.entry("UPDATE-TASK", Set.of("NAME")),
                 Map.entry("SET-DATE", Set.of("NAME", "DATE")),

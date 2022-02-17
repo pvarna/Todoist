@@ -33,7 +33,8 @@ public class AddTaskHandler extends TaskHandler {
     }
 
     private void addTaskToCollaboration() {
-        CollaborationTask toAdd = new CollaborationTask(this.taskName, this.taskDate, this.taskDueDate, this.taskDescription);
+        CollaborationTask toAdd = new CollaborationTask(this.taskName,
+                this.taskDate, this.taskDueDate, this.taskDescription);
 
         Collaboration collaboration = this.user.getCollaboration(this.collaborationName);
         collaboration.addNewTask(toAdd);

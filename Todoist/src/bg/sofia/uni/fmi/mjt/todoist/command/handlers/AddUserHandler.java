@@ -20,7 +20,7 @@ public class AddUserHandler extends CollaborationHandler {
             throw new WrongCreatorException("Only the creator of the collaboration can add new users");
         }
 
-        User toAdd = users.getUser(this.newUserName);
+        User toAdd = USERS.getUser(this.newUserName);
         toUpdate.addNewCollaborator(toAdd);
 
         toAdd.addCollaboration(toUpdate);

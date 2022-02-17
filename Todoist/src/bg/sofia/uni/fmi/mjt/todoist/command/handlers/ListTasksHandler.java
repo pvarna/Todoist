@@ -19,9 +19,9 @@ public class ListTasksHandler extends TaskHandler {
                                                   this.user.getTasksForGivenDate(this.taskDate);
 
         if (this.taskCompleted != null) {
-            tasks = tasks.stream().
-                    filter(task -> task.isCompleted() == this.taskCompleted).
-                    collect(Collectors.toSet());
+            tasks = tasks.stream()
+                    .filter(task -> task.isCompleted() == this.taskCompleted)
+                    .collect(Collectors.toSet());
         }
 
         this.assertNotEmpty(tasks);

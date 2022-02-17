@@ -4,14 +4,11 @@ import bg.sofia.uni.fmi.mjt.todoist.command.Command;
 import bg.sofia.uni.fmi.mjt.todoist.command.CommandParser;
 import bg.sofia.uni.fmi.mjt.todoist.server.Server;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
-import java.util.Set;
 
 public class Todoist {
 
-    private static final Set<String> availableServerCommands;
     private static final int PORT = 3945;
 
     public static void main(String[] args) throws InterruptedException {
@@ -59,14 +56,5 @@ public class Todoist {
     private static void stop(Thread thread, Server server) throws InterruptedException {
         server.stop();
         thread.join();
-    }
-
-    static {
-        availableServerCommands = Set.of(
-                "START",
-                "LOAD",
-                "SAVE",
-                "STOP"
-        );
     }
 }

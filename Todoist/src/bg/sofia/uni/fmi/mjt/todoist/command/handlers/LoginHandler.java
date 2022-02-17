@@ -11,7 +11,7 @@ public class LoginHandler extends CommandHandler {
 
     @Override
     public String execute() {
-        users.login(this.command.arguments().get(0), this.command.arguments().get(1));
+        USERS.login(this.command.arguments().get(0), this.command.arguments().get(1));
 
         return "Login successful";
     }

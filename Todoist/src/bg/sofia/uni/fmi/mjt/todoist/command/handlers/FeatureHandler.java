@@ -22,7 +22,7 @@ public abstract class FeatureHandler extends CommandHandler {
                     "(type 'help' to check the correct syntax of the commands)");
         }
 
-        this.user = users.getUser(this.username);
+        this.user = USERS.getUser(this.username);
     }
 
 

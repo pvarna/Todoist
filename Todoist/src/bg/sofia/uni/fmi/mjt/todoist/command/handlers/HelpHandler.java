@@ -36,6 +36,7 @@ public class HelpHandler extends CommandHandler {
                 NB! Commands 'add-task', 'update-task', 'set-date', 'remove-date', 'change-date', 'delete-task', 'get-task' and 'finish-task' also work for tasks in collaborations. You just have to add an optional argument collaboration=<c> where <c> is the name of the collaboration.
                 NB! If any of the arguments consists of more than one word, please put it in quotes.
                 NB! Arguments, surrounded by stars, are optional.
+                NB! Date format - dd.MM.yyyy
                 """;
     }
 }

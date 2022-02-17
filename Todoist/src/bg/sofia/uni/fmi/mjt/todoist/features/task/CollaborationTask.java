@@ -20,10 +20,10 @@ public class CollaborationTask extends Task {
 
     @Override
     public String serialize() {
-        String result = super.serialize() + " collaboration=%s";
+        String result = super.serialize() + " collaboration=\"%s\"";
 
         if (this.assignee != null) {
-            result += System.lineSeparator() + "assign-task collaboration=%s user=%s task=" + this.getName();
+            result += System.lineSeparator() + "assign-task collaboration=\"%s\" user=%s task=\"" + this.getName() + "\"";
         }
 
         return result;

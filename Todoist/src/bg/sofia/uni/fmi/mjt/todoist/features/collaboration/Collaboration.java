@@ -120,7 +120,8 @@ public class Collaboration {
         sb.append("Name: ").append(this.name).append(System.lineSeparator());
         sb.append("Creator: ").append(this.admin.getUsername());
         if (!this.collaborators.isEmpty()) {
-            sb.append(System.lineSeparator()).append("Collaborators: ").append(String.join(", ", this.collaborators.keySet()));
+            sb.append(System.lineSeparator()).append("Collaborators: ");
+            sb.append(String.join(", ", this.collaborators.keySet()));
         }
 
         if (!this.tasks.isEmpty()) {
@@ -128,7 +129,8 @@ public class Collaboration {
 
             sb.append(this.tasks.values().stream()
                     .map(Task::toString)
-                    .collect(Collectors.joining(System.lineSeparator() + TASK_SEPARATOR + System.lineSeparator())));
+                    .collect(Collectors.joining(System.lineSeparator() +
+                            TASK_SEPARATOR + System.lineSeparator())));
         }
 
         return sb.toString();
@@ -137,10 +139,10 @@ public class Collaboration {
     public List<String> serialize() {
         List<String> result = new ArrayList<>();
 
-        result.add("add-collaboration name=" + this.name);
+        result.add("add-collaboration name=\"" + this.name + "\"");
 
         for (User user : this.collaborators.values()) {
-            result.add("add-user collaboration=" + this.name + " user=" + user.getUsername());
+            result.add("add-user collaboration=\"" + this.name + "\" user=" + user.getUsername());
         }
 
         for (CollaborationTask task : this.tasks.values()) {

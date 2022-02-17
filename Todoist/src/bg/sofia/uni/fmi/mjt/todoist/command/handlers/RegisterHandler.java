@@ -11,7 +11,7 @@ public class RegisterHandler extends CommandHandler {
 
     @Override
     public String execute() {
-        users.register(this.command.arguments().get(0), this.command.arguments().get(1));
+        USERS.register(this.command.arguments().get(0), this.command.arguments().get(1));
 
         return "Registration successful";
     }
